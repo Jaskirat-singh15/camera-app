@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        margin: 0;
+    }
+    select{
+    display: block;
+    margin: auto;
+    height: 2rem;
+    width: 12rem;
+    background: burlywood;
+    font-size: larger;
+    border: none;
+    outline:none ;
+    }
+    #title{
+    display: block;
+    margin: auto;
+    height: 2rem;
+    width: 20rem;
+    background: burlywood;
+    font-weight: bold;
+    border: none;
+    outline:none ;
+    }
+    #content{
+    display: block;
+    margin: auto;
+    width: 30rem;
+    height: 50vh;
+    background: burlywood;
+    font-weight: bold;
+    border: none;
+    outline:none ;
+
+    }
+    #submit{
+    display: block;
+    margin: auto;
+    height: 3rem;
+    width: 6rem;
+    font-size: 18px;
+    background: burlywood;
+    border: none;
+    outline:none ;
+
+    }
+</style>
+<body>
+    <!-- Notes app => general notes , placements notes , college notes 
+    dropdown , 2 input boxes - 1 for tiltle of the note and 2nd for content , submit button 
+    get dom reference in script , and an event listener on submit button , when cliked get title and content and category from drop down if anything is missing give an error to user else save in indexedDb -->
+<br>
+    <select >
+        <option value="gen">generalNotes</option>
+        <option value="pla">placementNotes</option>
+        <option value="col">collegeNotes</option>
+    </select>
+
+    <br>
+
+    <input id="title" placeholder="Title">
+
+    <br>
+    <input id="content" >
+    <br>
+    <button id="submit">submit</button>
+
+
+
+</body>
+<script>
+
+
+    let req = indexedDB.open("NotesDB", 1);
+    // let req = indexedDB.open("name of database", versioon of database);
+    
+    
+    req.addEventListener("success",function(){
+        let accessToNotesDB = req.result; 
+        // alert("database opened successfully");
+    });
+     // upgrade event occurs in two cases
+     //case1 : when we create a new database 
+     // case 2: when you try to open a databse which already existed with a incremented version
+    req.addEventListener("upgradeneeded",function(){
+        let accessToNotesDB = req.result; 
+        // i can create a object store
+        accessToNotesDB.createObjectStore("placementNotes",{keyPath:"pId"});
+        accessToNotesDB.createObjectStore("generalNotes",{keyPath:"gId"});
+        accessToNotesDB.createObjectStore("collegeNotes",{keyPath:"cId"});
+    //  alert("database created / upadtaed successfully");
+    });
+
+    req.addEventListener("error",function(){
+        // alert("error in creation of datatbase");
+    });
+</script>
+</html>

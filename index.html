@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<body>
+    
+    <div class="video-container">
+        <video  autoplay style="transform: scale(1);"></video>
+    </div>
+   
+    <button id="record"><div></div></button>
+   
+    <button id="capture"><div></div></button>
+   
+    <div class="filter-container">
+        <div class="filter" style="background-color: hsla(358, 83%, 52%, 0.151);
+        background-blend-mode: luminosity ;"></div>
+        <div class="filter" style="background-color: #fbc53125;
+        background-blend-mode: color-burn;"></div>
+        <div class="filter" style="background-color: #1289a72f;
+        background-blend-mode: color-burn;"></div>
+        <div class="filter" style="background-color: #6f1e515d;
+        background-blend-mode: color-burn;"></div>
+        <div class="filter" style="background-color: #45bd3223;
+        background-blend-mode: color-burn;"></div>
+        <div class="filter" ></div>
+    </div>
+
+   
+        <div class="zoom-in">
+            <i class="material-icons" style="font-size: 36px;">zoom_in</i>
+        </div>
+        <div class="zoom-out">
+            <i class="material-icons " style="font-size: 36px;">zoom_out</i>
+        </div>
+    
+</body>
+<script>
+    let video = document.querySelector("video");
+    let recordBtn = document.querySelector("#record");
+    let recordDiv = recordBtn.querySelector("div");
+    // let stopBtn = document.querySelector("#stop");
+    let capBtn = document.querySelector("#capture");
+    let capDiv = capBtn.querySelector("div");
+    let filter = document.querySelectorAll(".filter");
+    let body = document.querySelector("body");
+    let zoomInBtn = document.querySelector(".zoom-in ");
+    let zoomOutBtn = document.querySelector(".zoom-out ");
+    
+    let appliedFilter;
+    let minZoom = 1;
+    let maxZoom = 3;
+    let currZoom =1;
+    let isRecording = false;
+    let mediaRecorder; 
+    let chunks = [];
+    
+    // startBtn.addEventListener("click",function(e){          *this work is now done in one evet listener 
+    //     // code likhna hai jisse recording start ho jaye    recordBtn*
+    //     mediaRecorder.start();
+    // });
+    // stopBtn.addEventListener("click",function(e){
+    //     // code likhna hai jisse recording stop ho jaye
+    //     mediaRecorder.stop();
+    // })
+    
+    recordBtn.addEventListener("click",function(e){
+        if(isRecording){
+            mediaRecorder.stop();
+            isRecording = false;
+            recordDiv.classList.remove("record-animation");
+        } 
+        else{
+            appliedFilter = "";
+            removeFilter();
+            currZoom =1;
+            video.style.transform = `scale(${currZoom})`;
+           mediaRecorder.start();
+           isRecording = true;
+           recordDiv.classList.add("record-animation");
+        }
+    })
+    capBtn.addEventListener("click",function(){
+        capDiv.classList.add("capture-animation");
+        setTimeout(function(){
+            capDiv.classList.remove("capture-animation");
+        },1000)
+        let canvas = document.createElement("canvas");
+        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+        let tool = canvas.getContext("2d");
+        tool.translate(canvas.width/2 , canvas.height/2);
+        tool.scale(currZoom , currZoom);
+        tool.translate(-canvas.width/2 , -canvas.height/2);
+        tool.drawImage(video , 0 ,0);
+
+        if(appliedFilter){
+            tool.fillStyle = appliedFilter;
+            tool.fillRect(0,0,canvas.width,canvas.height);
+        }
+        let link = canvas.toDataURL();
+        let a = document.createElement("a");
+        a.href = link;
+        a.download = "img.png";
+        a.click();
+        a.remove();
+        canvas.remove();
+    });
+
+    zoomInBtn.addEventListener("click",function(e){
+          if(currZoom<maxZoom){
+              currZoom = currZoom + 0.1;
+              console.log(currZoom);
+          }
+          video.style.transform = `scale(${currZoom})`;
+        
+        });
+        
+  zoomOutBtn.addEventListener("click",function(e){
+            if(currZoom > minZoom){
+                currZoom = currZoom - 0.1;
+              console.log(currZoom);
+
+            }
+            
+            video.style.transform = `scale(${currZoom})`
+    })
+     
+    for(let i =0 ; i<filter.length;i++){
+        filter[i].addEventListener("click",function(e){
+            removeFilter();
+            appliedFilter = e.currentTarget.style.backgroundColor;
+           let filterDiv = document.createElement("div");
+           filterDiv.style.backgroundColor = appliedFilter;
+           filterDiv.classList.add("filter-div");
+           body.append(filterDiv);
+        })
+    }
+    navigator.mediaDevices.getUserMedia({video: true,audio:true})
+    .then(function(mediaStream){
+        // let options = {MimeType:"video/webm"};
+        // mediaRecorder = new MediaRecorder(mediaStream,options);
+        mediaRecorder = new MediaRecorder(mediaStream);
+        
+        mediaRecorder.addEventListener("dataavailable",function(e){
+        chunks.push(e.data);
+        });
+
+        mediaRecorder.addEventListener("stop",function(e){
+            // let blob = new Blob(chunks , {type : "video/webm"});
+            let blob = new Blob(chunks , {type : "video/mp4"});
+            chunks = [];   // to empty the array , so that next recordig doesnot have the previous video chunk data
+            let a = document.createElement("a");
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            // a.download = "video.webm";
+            a.download = "video.mp4";
+            a.click();
+            a.remove();
+
+        })
+
+        video.srcObject = mediaStream;
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
+    function removeFilter(){
+        let isFilter = document.querySelector(".filter-div");
+        if(isFilter) isFilter.remove();
+    }
+</script>
+</html>

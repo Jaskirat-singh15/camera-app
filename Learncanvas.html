@@ -1,0 +1,42 @@
+<!DOCTYPE html>      // to learn basics of canvas
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    
+    body{
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <canvas></canvas>
+</body>
+<script>
+    let canvas = document.querySelector("canvas");
+    canvas.height = window.innerHeight;   // by giving this canvas will take the size of window.
+    canvas.width = window.innerWidth;      // but it takes some extra pixels which add scrollbars
+    let tool = canvas.getContext("2d");    // to remove scrollbars overflow hidden in body 
+    
+    tool.moveTo(0,0);
+    tool.lineTo(400,400);
+    tool.strokeStyle = "red";
+    tool.lineWidth = 20; 
+    tool.stroke();
+    tool.beginPath();
+    tool.moveTo(400,400);
+    tool.lineTo(800,0);
+    tool.strokeStyle = "blue";
+    tool.stroke();
+    tool.fillStyle = "red";
+    tool.fillRect(100,100,200,200);
+   
+</script>
+</html>

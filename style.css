@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: black;
+}
+
+  .filter-container{
+     position: fixed;
+     top: 12vh;
+     left: 20px;
+      height: 36rem;
+      width: 10rem;
+      border: 1px solid white;
+      z-index: 3;
+    }
+    .filter{
+       
+        height: 6rem;
+        width: 100%;
+        border: 1px solid white;
+        background-image: url(https://images.pexels.com/photos/1165991/pexels-photo-1165991.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+        background-size: cover;
+        
+    }
+    
+    .filter-div{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 0;
+    }
+
+#record,
+#capture {
+  position: fixed;
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  border: 4px solid white;
+  background-color: black;
+  z-index: 3;
+}
+
+#record {
+  top: 30vh;
+  right: 20px;
+}
+
+#record div {
+  height: 68%;
+  width: 80%;
+  border-radius: 50%;
+  background: red;
+  margin: auto;
+}
+#capture {
+  top: 40vh;
+  right: 20px;
+}
+
+#capture div {
+  height: 68%;
+  width: 80%;
+  border-radius: 50%;
+  background: white;
+  margin: auto;
+}
+
+.video-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+video {
+  height: 100%;
+  width: 100%;
+}
+
+.record-animation {
+  animation: zoom-in-out 1s infinite;
+}
+.capture-animation {
+  animation: zoom-in-out 0.5s;
+}
+
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.zoom-in{
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    background-color: black;
+    border-radius: 50%;
+    position: fixed;
+    top: 10vh;
+    right: 20px;
+    outline: none;
+    border: 4px solid white;
+    align-items: center;
+    justify-content: center;
+}
+.zoom-out{
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    background-color: black;
+    border-radius: 50%;
+    position: fixed;
+    top: calc(( 10vh + 4.4rem ));
+    right: 20px;
+    border: 4px solid white;
+    align-items: center;
+    justify-content: center;
+}
+
+.material-icons{
+    color: darkcyan;
+    
+}

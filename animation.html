@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animations</title>
+
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        margin: 0;
+    }
+
+    div{
+        height: 10rem;
+        width: 10rem;
+        background-color: red;
+        animation: moveRight;
+        animation-duration: 3s;        /*time duration to complete the animation */
+        animation-iteration-count: 5;  /* infinite for non-stop playing*/
+        animation-fill-mode: forwards;   /* so that animation stays at final position*/
+        animation-delay: 3s;    /* delay in playing aimation after loading the page*/
+
+    }
+
+    @keyframes moveRight{
+
+        0%{
+            transform: translateX(0);
+        }
+        50%{
+            transform: translateX(1000px);
+        }
+        100%{
+            transform: translateX(0px);
+        }
+      
+    }
+</style>
+<body>
+    <div></div>
+</body>
+</html>

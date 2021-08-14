@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q1</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        margin: 0%;
+        
+    }
+
+    div{
+        height: 15rem;
+        width: 15rem;
+        background-color: #4158D0;
+        background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        position : fixed;
+        margin-left: calc(( 100vw - 15rem ) / 2);
+        margin-top: calc(( 100vh - 15rem ) / 2);
+        animation: increaseCircular;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        /* animation: increaseCircular 4s infinite;   above tree lines in one */
+
+    }
+
+   @keyframes increaseCircular{
+
+       0%{
+          transform: scale(1) rotate(0deg)  ;
+           border-radius: 0%;
+       }
+       50%{
+          transform: scale(2) rotate(180deg);
+           border-radius: 50%;
+       }
+       100%{
+          transform: scale(1)  rotate (360deg);
+           border-radius: 0%;
+
+       }
+
+   }
+</style>
+<body>
+    <div></div>
+</body>
+</html>
